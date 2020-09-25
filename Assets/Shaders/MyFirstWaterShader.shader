@@ -4,6 +4,7 @@ Shader "Custom/MyFirstWaterShader" // what category Unity will label it as
     // "Properties" are like the public variables for your shader
     Properties
     {
+        _Color ("Tint", Color) = (0,0,0,1)
         _MainTex ("Texture", 2D) = "white" {}
         _WaveFrequency ("Wave Frequency", Float) = 1.0
         _WaveAmplitude ("Wave Height", Float) = 0.25
@@ -12,7 +13,9 @@ Shader "Custom/MyFirstWaterShader" // what category Unity will label it as
     // "SubShader" is where the shader code starts
     SubShader
     {
-        Tags { "RenderType"="Opaque" } // affect how Unity optimizes / renders this
+        Tags { "Queue" = "Transparent" "RenderType"="Transparent" } // affect how Unity optimizes / renders this
+        Blend SrcAlpha OneMinusSrcAlpha
+        ZWrite Off
         LOD 100 // Level of Detail... faraway things are rendered at lower quality
 
         Pass // "Pass" like an Update loop... single pass shaders are fast
@@ -45,6 +48,8 @@ Shader "Custom/MyFirstWaterShader" // what category Unity will label it as
             float _WaveFrequency; // note that these vars are declared in Properties
             float _WaveAmplitude;
             float _WaveTextureScroll;
+            
+            fixed4 _Color;
 
             // VERTEX SHADER, affects the shape / geometry of the mesh
             v2f vert (appdata v)
@@ -69,6 +74,7 @@ Shader "Custom/MyFirstWaterShader" // what category Unity will label it as
                 // HOW TO TUNE THE SPEED OF TEXTURE SCROLLING???
                 fixed4 col = tex2D(_MainTex, i.uv + float2(_Time.y, 0) * _WaveTextureScroll );
                 // apply fog
+                col *= _Color;
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;
             }
