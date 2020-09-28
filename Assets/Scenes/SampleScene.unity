@@ -1634,8 +1634,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   amplitude: 0.01
+  limbFreq: 10
   frequency: 1
   cam: {fileID: 963194227}
+  limbs:
+  - {fileID: 672315390}
+  - {fileID: 1024106731}
+  - {fileID: 1501392268}
+  - {fileID: 1644815639}
+  - {fileID: 69673942}
 --- !u!54 &1528693114
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1733,7 +1740,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1571236201}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1528693113}
+        m_MethodName: AppeaseLimb
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1571236201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2224,7 +2242,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1834970707}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1528693113}
+        m_MethodName: AppeaseLimb
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1834970707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2490,7 +2519,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1962723330}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1528693113}
+        m_MethodName: AppeaseLimb
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1962723330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2609,7 +2649,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1991605464}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1528693113}
+        m_MethodName: AppeaseLimb
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1991605464
 MonoBehaviour:
   m_ObjectHideFlags: 0
