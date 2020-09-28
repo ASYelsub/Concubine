@@ -15,6 +15,12 @@ public class BodyMovement : MonoBehaviour
    private float timer;
    [SerializeField]
    private float amplitude;
+   [SerializeField] 
+   private float frequency; //minimum should be 1
+
+   [SerializeField] private Camera cam;
+   private Vector3 mouseInput;
+   private Vector3 mouseInWorld;
    private void Start()
    {
       timer = 0f;
@@ -24,10 +30,13 @@ public class BodyMovement : MonoBehaviour
 
    private void Update()
    {
+      mouseInput = Input.mousePosition;
+      mouseInWorld = cam.ScreenToWorldPoint(mouseInput);
+      print(mouseInWorld);
       timer += Time.deltaTime;
 
       bodyObjectTransform.position = new Vector3(bodyObjectTransform.position.x,
-                                              bodyObjectTransform.position.y + (Mathf.Cos(timer) * amplitude), 
+                                              bodyObjectTransform.position.y + (Mathf.Cos(timer * frequency) * amplitude), 
                                                  bodyObjectTransform.transform.position.z);
    }
 }
