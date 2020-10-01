@@ -31,7 +31,11 @@ public class BodyMovement : MonoBehaviour
 
    private int randomNumber;
 
+   [SerializeField] private AudioClip steamSound;
+   [SerializeField] private AudioSource steamSource;
    [SerializeField] private GameObject[] limbs;
+
+   [SerializeField] private ParticleSystem phlegmParticle, bloodParticle, yellowBileParticle, blackBileParticle;
    
    private bool lArmMoving = false, 
                 rArmMoving = false,
@@ -39,7 +43,15 @@ public class BodyMovement : MonoBehaviour
                 rLegMoving = false,
                 headMoving = false;
 
+
+   private bool yellowPressed = false,
+                blackPressed = false,
+                phlegmPressed = false,
+                bloodPressed = false;
+
    private float limbTimerMax;
+
+   private float particleTimer;
    private void Start()
    {
       //limbFreq = 0f;
@@ -48,6 +60,10 @@ public class BodyMovement : MonoBehaviour
       bodyObject = gameObject;
       bodyObjectTransform = bodyObject.transform;
       limbTimerMax = UnityEngine.Random.Range(0, 5f);
+      phlegmParticle.Stop();
+      bloodParticle.Stop();
+      yellowBileParticle.Stop();
+      blackBileParticle.Stop();
    }
 
    private void Update()
@@ -112,6 +128,22 @@ public class BodyMovement : MonoBehaviour
          print("headmoving");
       }
 
+      if (yellowPressed || blackPressed || bloodPressed || phlegmPressed)
+      {
+         particleTimer += Time.deltaTime;
+         if (particleTimer >= 1f)
+         {
+            particleTimer = 0;
+            yellowBileParticle.Stop();
+            blackBileParticle.Stop();
+            bloodParticle.Stop();
+            phlegmParticle.Stop();
+            yellowPressed = false;
+            blackPressed = false;
+            bloodPressed = false;
+            phlegmPressed = false;
+         }
+      }
    }
 
    private void MoveRandomLimb(int limbValue)
@@ -158,20 +190,45 @@ public class BodyMovement : MonoBehaviour
    private void FixYellowBile()
    {
       print("yellow bile");
+      yellowPressed = true;
+      yellowBileParticle.Play();
+      lArmMoving = !lArmMoving;
+      rArmMoving = !rArmMoving;
+      steamSource.PlayOneShot(steamSound);
    }
 
    private void FixBlackBile()
    {
-    print("black bile");  
+    print("black bile");
+    blackPressed = true;
+    blackBileParticle.Play();
+       lLegMoving = !lLegMoving;
+       rLegMoving = !rLegMoving;
+       steamSource.PlayOneShot(steamSound);
+
    }
 
    private void FixPhlegm()
    {
       print("phlegm");
+      phlegmPressed = true;
+      phlegmParticle.Play();
+      rArmMoving = !rArmMoving;
+      rLegMoving = !rLegMoving;
+      lArmMoving = !lArmMoving;
+      steamSource.PlayOneShot(steamSound);
+
    }
 
    private void FixBlood()
    {
       print("blood");
+      bloodPressed = true;
+      bloodParticle.Play();
+      lLegMoving = !lLegMoving;
+      lArmMoving = !lArmMoving;
+      rLegMoving = !rLegMoving;
+      steamSource.PlayOneShot(steamSound);
+
    }
 }
