@@ -71,6 +71,12 @@ public class BodyMovement : MonoBehaviour
       blackBileParticle.Stop();
       limbFreq[4] = 30f;
       limbAmp[4] = 2f;
+
+      for (int i = 0; i < limbFreq.Length - 1; i++)
+      {
+         limbFreq[i] = UnityEngine.Random.Range(10f, 30f);
+         limbAmp[i] = UnityEngine.Random.Range(2f, 10f);
+      }
    }
 
    private void FixedUpdate()
@@ -87,6 +93,7 @@ public class BodyMovement : MonoBehaviour
       if (limbTimer >= limbTimerMax)
       {
          limbTimer = 0;
+         //need to figure out how to do this when switching bools
          randomNumber = UnityEngine.Random.Range(1, 5);
          MoveRandomLimb(randomNumber);
       }
