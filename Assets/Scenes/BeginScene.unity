@@ -337,7 +337,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: a3640ae81f22e44be970755893e59c12, type: 3}
-    m_FontSize: 25
+    m_FontSize: 23
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
@@ -350,7 +350,8 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: "Intent: \n\n-Calm the creature before you via the humor buttons. \n\n-If
     all her limbs move for too long, her head will start spinning, and you will lose.
-    \n\n-There is no way to win, there is only continuation, and then death."
+    \n\n-There is no way to win, there is only continuation, and then death.\n\nEnter
+    to begin."
 --- !u!222 &652798222
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -21,7 +21,8 @@
         </e>
         <e p="Scripts" t="Include">
           <e p="BodyMovement.cs" t="Include" />
-          <e p="ButtonManager.cs" t="Include" />
+          <e p="EndScript.cs" t="Include" />
+          <e p="StartScript.cs" t="Include" />
         </e>
         <e p="Shaders" t="Include">
           <e p="MyFirstWaterShader.shader" t="Include" />
@@ -49,7 +50,6 @@
             </e>
           </e>
         </e>
-        <e p="StartScript.cs" t="Include" />
       </e>
       <e p="Concubine.sln" t="IncludeFlat" />
       <e p="obj" t="ExcludeRecursive" />
