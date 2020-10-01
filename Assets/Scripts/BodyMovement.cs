@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = System.Random;
+using UnityEngine.SceneManagement;
 
 //The intent of this script is to make the body and any child objects
 //look like they're slowly moving up and down.
@@ -22,6 +23,7 @@ public class BodyMovement : MonoBehaviour
    [SerializeField]
    private float amplitude;
    private float[] limbFreq = new float[5]; //from 10 to 100
+   private float[] limbAmp = new float[5];
    [SerializeField] 
    private float frequency; //minimum should be 1
 
@@ -36,6 +38,9 @@ public class BodyMovement : MonoBehaviour
    [SerializeField] private GameObject[] limbs;
 
    [SerializeField] private ParticleSystem phlegmParticle, bloodParticle, yellowBileParticle, blackBileParticle;
+
+   private float headMoveTimer = 0f;
+   private float gameEndTimer = 0f;
    
    private bool lArmMoving = false, 
                 rArmMoving = false,
@@ -64,9 +69,11 @@ public class BodyMovement : MonoBehaviour
       bloodParticle.Stop();
       yellowBileParticle.Stop();
       blackBileParticle.Stop();
+      limbFreq[4] = 30f;
+      limbAmp[4] = 2f;
    }
 
-   private void Update()
+   private void FixedUpdate()
    {
       //mouseInput = Input.mousePosition;
       //mouseInWorld = cam.ScreenToWorldPoint(mouseInput);
@@ -80,7 +87,7 @@ public class BodyMovement : MonoBehaviour
       if (limbTimer >= limbTimerMax)
       {
          limbTimer = 0;
-         randomNumber = UnityEngine.Random.Range(1, 6);
+         randomNumber = UnityEngine.Random.Range(1, 5);
          MoveRandomLimb(randomNumber);
       }
       else
@@ -88,46 +95,7 @@ public class BodyMovement : MonoBehaviour
          limbTimer += Time.deltaTime;  
       }
 
-      if (lArmMoving)
-      {
-         limbs[0].transform.localPosition = new Vector3(limbs[0].transform.localPosition.x,
-            limbs[0].transform.localPosition.y + (Mathf.Cos(timer * limbFreq[0]) * amplitude), 
-            limbs[0].transform.localPosition.z);
-         print("larmmoving");
-      }
-
-      if (rArmMoving)
-      {
-         limbs[1].transform.localPosition = new Vector3(limbs[1].transform.localPosition.x,
-            limbs[1].transform.localPosition.y + (Mathf.Cos(timer * limbFreq[1]) * amplitude), 
-            limbs[1].transform.localPosition.z);
-         print("rarmmoving");
-      }
-
-      if (lLegMoving)
-      {
-         limbs[2].transform.localPosition = new Vector3(limbs[2].transform.localPosition.x,
-            limbs[2].transform.localPosition.y + (Mathf.Cos(timer * limbFreq[2]) * amplitude), 
-            limbs[2].transform.localPosition.z);
-         print("llegmoving");
-      }
-
-      if (rLegMoving)
-      {
-         limbs[3].transform.localPosition = new Vector3(limbs[3].transform.localPosition.x,
-            limbs[3].transform.localPosition.y + (Mathf.Cos(timer * limbFreq[3]) * amplitude), 
-            limbs[3].transform.localPosition.z);
-         print("rlegmoving");
-      }
-
-      if (headMoving)
-      {
-         limbs[4].transform.localPosition = new Vector3(limbs[4].transform.localPosition.x,
-            limbs[4].transform.localPosition.y + (Mathf.Cos(timer * limbFreq[4]) * amplitude), 
-            limbs[4].transform.localPosition.z);
-         print("headmoving");
-      }
-
+      //expels smoke
       if (yellowPressed || blackPressed || bloodPressed || phlegmPressed)
       {
          particleTimer += Time.deltaTime;
@@ -144,11 +112,84 @@ public class BodyMovement : MonoBehaviour
             phlegmPressed = false;
          }
       }
+      
+      if (lArmMoving)
+      {
+         limbs[0].transform.localPosition = new Vector3(limbs[0].transform.localPosition.x,
+            limbs[0].transform.localPosition.y + (Mathf.Sin(timer * limbFreq[0]) * amplitude * limbAmp[0]), 
+            limbs[0].transform.localPosition.z);
+         print("larmmoving");
+      }
+
+      if (rArmMoving)
+      {
+         limbs[1].transform.localPosition = new Vector3(limbs[1].transform.localPosition.x,
+            limbs[1].transform.localPosition.y + (Mathf.Sin(timer * limbFreq[1]) * amplitude * limbAmp[1]), 
+            limbs[1].transform.localPosition.z);
+         print("rarmmoving");
+      }
+
+      if (lLegMoving)
+      {
+         limbs[2].transform.localPosition = new Vector3(limbs[2].transform.localPosition.x,
+            limbs[2].transform.localPosition.y + (Mathf.Sin(timer * limbFreq[2]) * amplitude * limbAmp[2]), 
+            limbs[2].transform.localPosition.z);
+         print("llegmoving");
+      }
+
+      if (rLegMoving)
+      {
+         limbs[3].transform.localPosition = new Vector3(limbs[3].transform.localPosition.x,
+            limbs[3].transform.localPosition.y + (Mathf.Sin(timer * limbFreq[3]) * amplitude * limbAmp[3]), 
+            limbs[3].transform.localPosition.z);
+         print("rlegmoving");
+      }
+
+      if (rLegMoving && rArmMoving && lLegMoving && rLegMoving)
+      {
+         HeadMoveDiscover();
+      }
+      else
+      {
+         headMoving = false;
+      }
+      if (headMoving)
+      {
+         limbs[4].transform.localPosition = new Vector3(limbs[4].transform.localPosition.x,
+            limbs[4].transform.localPosition.y + (Mathf.Sin(timer * limbFreq[4]) * amplitude * limbAmp[4]), 
+            limbs[4].transform.localPosition.z);
+         print("headmoving");
+         if (gameEndTimer >= 2f)
+         {
+            SceneManager.LoadScene(2);
+            gameEndTimer = 0;
+         }
+         else
+         {
+            gameEndTimer += Time.deltaTime;
+         }
+
+      }
+
+      
    }
 
+   private void HeadMoveDiscover()
+   {
+      if (headMoveTimer >= 2f)
+      {
+         headMoving = true;
+         headMoveTimer = 0f;
+      }
+      else
+      {
+         headMoveTimer += Time.deltaTime;
+      }
+   }
    private void MoveRandomLimb(int limbValue)
    {
-      limbFreq[limbValue - 1] = UnityEngine.Random.Range(10f, 50f);
+      limbFreq[limbValue - 1] = UnityEngine.Random.Range(10f, 30f);
+      limbAmp[limbValue - 1] = UnityEngine.Random.Range(2f, 10f);
       switch (limbValue)
       {
          case 1 :
